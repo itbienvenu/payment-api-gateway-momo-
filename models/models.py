@@ -15,9 +15,11 @@ class Patient(Base):
     names = Column(String, nullable=False)
     email = Column(String, nullable=True)
     phone = Column(String, nullable=False)
-    created_at = Column(DateTime, default=datetime.utcnow)
+    age = Column(String, nullable=False)
+    password = Column(String, nullable=False)
+    created_at = Column(DateTime, default=datetime.now(UTC))
 
-    medicines = relationship("PatientMedicine", back_populates="patient")
+    medicines = relationship("PatientMedecineModel", back_populates="patient")
 
 
 # 2. Medicines Table
@@ -30,11 +32,11 @@ class Medecine(Base):
     unit_price = Column(Float, nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow)
 
-    patient_links = relationship("PatientMedecine", back_populates="medicine")
+    patient_links = relationship("PatientMedecineModel", back_populates="medicine")
 
 
 # 3. Patient-Medicine Link Table (Billing)
-class PatientMedecine(Base):
+class PatientMedecineModel(Base):
     __tablename__ = "patient_medicines"
 
     id = Column(PG_UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
